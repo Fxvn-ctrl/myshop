@@ -2,63 +2,34 @@
 <html lang="th">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ตะกร้าสินค้า</title>
-  <meta name="description" content="ดูสินค้าที่คุณเลือกใส่ตะกร้า พร้อมจำนวนและราคา">
-  <meta name="robots" content="index, follow">
-  <style>
-    body { font-family: sans-serif; padding: 20px; background: #f5f5f5; }
-    h1 { text-align: center; }
-    ul { list-style: none; padding: 0; max-width: 400px; margin: auto; }
-    li { background: white; padding: 10px; margin: 10px 0; border-radius: 8px; }
-    button { display: block; margin: 20px auto; padding: 10px 20px; border: none; background-color: #dc3545; color: white; border-radius: 6px; cursor: pointer; }
-    a { display: block; text-align: center; margin-bottom: 20px; text-decoration: none; color: #007bff; }
-  </style>
 </head>
-<body onload="showCartItems()">
-
-  <a href="index.html">← กลับไปซื้อของต่อ</a>
+<body>
   <h1>ตะกร้าสินค้า</h1>
-  <ul id="cart-list"></ul>
-  <button onclick="clearCartItems()">ล้างตะกร้า</button>
+  <div id="cart-items"></div>
+  <h3>รวมทั้งหมด: <span id="total">0</span> บาท</h3>
+  <a href="checkout.html"><button>สั่งซื้อสินค้า</button></a>
+  <a href="index.html"><button>กลับไปหน้าร้าน</button></a>
 
-  <script src="cart.js"></script>
   <script>
-    function showCartItems() {
-      const items = getCartItems();
-      const list = document.getElementById('cart-list');
-      list.innerHTML = '';
-      if (Object.keys(items).length === 0) {
-        list.innerHTML = '<li>ไม่มีสินค้าในตะกร้า</li>';
-        return;
-      }
-      for (const [name, qty] of Object.entries(items)) {
-        const li = document.createElement('li');
-        li.textContent = `${name} × ${qty}`;
-        list.appendChild(li);
-      }
+    function getCart() {
+      return JSON.parse(localStorage.getItem("cart") || "[]");
     }
-    function clearCartItems() {
-      clearCart();
-      showCartItems();
-      updateCartCount();
-    let cart = JSON.parse(localStorage.getItem('cart')) || [];
-    let cartItemsDiv = document.getElementById("cartItems");
-    let total = 0;
 
-    if (cart.length === 0) {
-      cartItemsDiv.innerHTML = "<p>ยังไม่มีสินค้าในตะกร้า</p>";
-      document.querySelector("button").style.display = "none";
-    } else {
-      cart.forEach(item => {
-        cartItemsDiv.innerHTML += `<div class="cart-item">${item.name} - ${item.price} บาท</div>`;
+    function displayCart() {
+      let cart = getCart();
+      let cartDiv = document.getElementById("cart-items");
+      let total = 0;
+      cartDiv.innerHTML = "";
+      cart.forEach((item, index) => {
+        cartDiv.innerHTML += "<p>" + item.name + " - " + item.price + " บาท</p>";
         total += item.price;
       });
-      document.getElementById("total").innerText = "ราคารวม: " + total + " บาท";
+      document.getElementById("total").innerText = total;
     }
 
-    function checkout() {
-      window.location.href = "checkout.html";
-    }
+    displayCart();
   </script>
 </body>
 </html>
