@@ -41,6 +41,23 @@
       clearCart();
       showCartItems();
       updateCartCount();
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    let cartItemsDiv = document.getElementById("cartItems");
+    let total = 0;
+
+    if (cart.length === 0) {
+      cartItemsDiv.innerHTML = "<p>ยังไม่มีสินค้าในตะกร้า</p>";
+      document.querySelector("button").style.display = "none";
+    } else {
+      cart.forEach(item => {
+        cartItemsDiv.innerHTML += `<div class="cart-item">${item.name} - ${item.price} บาท</div>`;
+        total += item.price;
+      });
+      document.getElementById("total").innerText = "ราคารวม: " + total + " บาท";
+    }
+
+    function checkout() {
+      window.location.href = "checkout.html";
     }
   </script>
 </body>
