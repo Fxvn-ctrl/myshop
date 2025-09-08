@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>สั่งซื้อสินค้า</title>
+</head>
+<body>
+  <h1>ฟอร์มสั่งซื้อ</h1>
+  <form onsubmit="placeOrder(event)">
+    <label>ชื่อผู้รับ:</label><br>
+    <input type="text" id="name" required><br><br>
+
+    <label>ที่อยู่:</label><br>
+    <textarea id="address" required></textarea><br><br>
+
+    <label>เบอร์โทร:</label><br>
+    <input type="text" id="phone" required><br><br>
+
+    <button type="submit">ยืนยันการสั่งซื้อ</button>
+  </form>
+
+  <script>
+    function placeOrder(event) {
+      event.preventDefault();
+      let name = document.getElementById("name").value;
+      let address = document.getElementById("address").value;
+      let phone = document.getElementById("phone").value;
+
+      alert("สั่งซื้อสำเร็จ!\nผู้รับ: " + name + "\nที่อยู่: " + address + "\nเบอร์โทร: " + phone);
+      localStorage.removeItem("cart");
+      window.location.href = "index.html";
+    }
+  </script>
+</body>
+</html>
